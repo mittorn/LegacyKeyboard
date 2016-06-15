@@ -15,8 +15,6 @@
  */
 
 package com.android.inputmethod.latin;
-
-import android.backup.BackupManager;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -65,6 +63,5 @@ public class LatinIMESettings extends PreferenceActivity
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
             String key) {
-        (new BackupManager(this)).dataChanged();
     }
 }

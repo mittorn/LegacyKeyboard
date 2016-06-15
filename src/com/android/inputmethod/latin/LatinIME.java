@@ -87,7 +87,7 @@ public class LatinIME extends InputMethodService
     private LatinKeyboardView mInputView;
     private CandidateViewContainer mCandidateViewContainer;
     private CandidateView mCandidateView;
-    private Suggest mSuggest;
+    //private Suggest mSuggest;
     private CompletionInfo[] mCompletions;
     
     private AlertDialog mOptionsDialog;
@@ -168,11 +168,11 @@ public class LatinIME extends InputMethodService
     }
     
     private void initSuggest(String locale) {
-        mLocale = locale;
+        /*mLocale = locale;
         mSuggest = new Suggest(this, R.raw.main);
         mSuggest.setCorrectionMode(mCorrectionMode);
         mUserDictionary = new UserDictionary(this);
-        mSuggest.setUserDictionary(mUserDictionary);
+        mSuggest.setUserDictionary(mUserDictionary);*/
         mWordSeparators = getResources().getString(R.string.word_separators);
         mSentenceSeparators = getResources().getString(R.string.sentence_separators);
     }
@@ -297,16 +297,16 @@ public class LatinIME extends InputMethodService
         if (mCandidateView != null) mCandidateView.setSuggestions(null, false, false, false);
         loadSettings();
         // Override auto correct
-        if (disableAutoCorrect) {
+        /*if (disableAutoCorrect) {
             mAutoCorrectOn = false;
             if (mCorrectionMode == Suggest.CORRECTION_FULL) {
                 mCorrectionMode = Suggest.CORRECTION_BASIC;
             }
-        }
+        }*/
         mInputView.setProximityCorrectionEnabled(true);
-        if (mSuggest != null) {
+        /*if (mSuggest != null) {
             mSuggest.setCorrectionMode(mCorrectionMode);
-        }
+        }*/
         mPredictionOn = mPredictionOn && mCorrectionMode > 0;
         checkTutorial(attribute.privateImeOptions);
         if (TRACE) Debug.startMethodTracing("latinime");
@@ -499,7 +499,7 @@ public class LatinIME extends InputMethodService
     
     private void doubleSpace() {
         //if (!mAutoPunctuate) return;
-        if (mCorrectionMode == Suggest.CORRECTION_NONE) return;
+        /*if (mCorrectionMode == Suggest.CORRECTION_NONE) return;
         final InputConnection ic = getCurrentInputConnection();
         if (ic == null) return;
         CharSequence lastThree = ic.getTextBeforeCursor(3, 0);
@@ -511,11 +511,11 @@ public class LatinIME extends InputMethodService
             ic.commitText(". ", 1);
             ic.endBatchEdit();
             updateShiftKeyState(getCurrentInputEditorInfo());
-        }
+        }*/
     }
     
     public boolean addWordToDictionary(String word) {
-        mUserDictionary.addWord(word, 128);
+        //mUserDictionary.addWord(word, 128);
         return true;
     }
 
@@ -738,11 +738,11 @@ public class LatinIME extends InputMethodService
 
     private void updateSuggestions() {
         // Check if we have a suggestion engine attached.
-        if (mSuggest == null || !isPredictionOn()) {
+        //if (mSuggest == null || !isPredictionOn()) {
             return;
-        }
+        //}
         
-        if (!mPredicting) {
+    /*    if (!mPredicting) {
             mCandidateView.setSuggestions(null, false, false, false);
             return;
         }
@@ -768,23 +768,25 @@ public class LatinIME extends InputMethodService
             mBestWord = null;
         }
         setCandidatesViewShown(isCandidateStripVisible() || mCompletionOn);
+        */
     }
 
     private void pickDefaultSuggestion() {
         // Complete any pending candidate query first
-        if (mHandler.hasMessages(MSG_UPDATE_SUGGESTIONS)) {
+        /*if (mHandler.hasMessages(MSG_UPDATE_SUGGESTIONS)) {
             mHandler.removeMessages(MSG_UPDATE_SUGGESTIONS);
             updateSuggestions();
         }
         if (mBestWord != null) {
             TextEntryState.acceptedDefault(mWord.getTypedWord(), mBestWord);
             mJustAccepted = true;
-            pickSuggestion(mBestWord);
-        }
+        pickSuggestion(mBestWord);
+        }*/
+    
     }
 
     public void pickSuggestionManually(int index, CharSequence suggestion) {
-        if (mCompletionOn && mCompletions != null && index >= 0
+        /*if (mCompletionOn && mCompletions != null && index >= 0
                 && index < mCompletions.length) {
             CompletionInfo ci = mCompletions[index];
             InputConnection ic = getCurrentInputConnection();
@@ -806,10 +808,11 @@ public class LatinIME extends InputMethodService
         }
         // Fool the state watcher so that a subsequent backspace will not do a revert
         TextEntryState.typedCharacter((char) KEYCODE_SPACE, true);
+        */
     }
     
     private void pickSuggestion(CharSequence suggestion) {
-        if (mCapsLock) {
+        /*if (mCapsLock) {
             suggestion = suggestion.toString().toUpperCase();
         } else if (preferCapitalization() 
                 || (mKeyboardSwitcher.isAlphabetMode() && mInputView.isShifted())) {
@@ -825,7 +828,7 @@ public class LatinIME extends InputMethodService
         if (mCandidateView != null) {
             mCandidateView.setSuggestions(null, false, false, false);
         }
-        updateShiftKeyState(getCurrentInputEditorInfo());
+        updateShiftKeyState(getCurrentInputEditorInfo());*/
     }
 
     private boolean isCursorTouchingWord() {
@@ -969,13 +972,6 @@ public class LatinIME extends InputMethodService
     }
 
     private void vibrate() {
-        if (!mVibrateOn) {
-            return;
-        }
-        if (mVibrator == null) {
-            mVibrator = new Vibrator();
-        }
-        mVibrator.vibrate(mVibrateDuration);
     }
 
     private void checkTutorial(String privateImeOptions) {
@@ -1020,10 +1016,10 @@ public class LatinIME extends InputMethodService
         mShowSuggestions = sp.getBoolean(PREF_SHOW_SUGGESTIONS, true) & mQuickFixes;
         boolean autoComplete = sp.getBoolean(PREF_AUTO_COMPLETE,
                 getResources().getBoolean(R.bool.enable_autocorrect)) & mShowSuggestions;
-        mAutoCorrectOn = mSuggest != null && (autoComplete || mQuickFixes);
-        mCorrectionMode = autoComplete
+        mAutoCorrectOn = false;
+        /*mCorrectionMode = autoComplete
                 ? Suggest.CORRECTION_FULL
-                : (mQuickFixes ? Suggest.CORRECTION_BASIC : Suggest.CORRECTION_NONE);
+                : (mQuickFixes ? Suggest.CORRECTION_BASIC : Suggest.CORRECTION_NONE);*/
     }
 
     private void showOptionsMenu() {
@@ -1032,7 +1028,8 @@ public class LatinIME extends InputMethodService
         builder.setIcon(R.drawable.ic_dialog_keyboard);
         builder.setNegativeButton(android.R.string.cancel, null);
         CharSequence itemSettings = getString(R.string.english_ime_settings);
-        CharSequence itemInputMethod = getString(com.android.internal.R.string.inputMethod);
+        //CharSequence itemInputMethod = getString(com.android.internal.R.string.inputMethod);
+        CharSequence itemInputMethod = "";
         builder.setItems(new CharSequence[] {
                 itemSettings, itemInputMethod},
                 new DialogInterface.OnClickListener() {
@@ -1044,7 +1041,7 @@ public class LatinIME extends InputMethodService
                         launchSettings();
                         break;
                     case POS_METHOD:
-                        InputMethodManager.getInstance(LatinIME.this).showInputMethodPicker();
+                        //InputMethodManager.getInstance(LatinIME.this).showInputMethodPicker();
                         break;
                 }
             }

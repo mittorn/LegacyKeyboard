@@ -1,14 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" 
-        package="com.android.inputmethod.latin"
-        android:sharedUserId="android.uid.shared">
-    <uses-permission android:name="android.permission.VIBRATE"/>
+        package="ru.mittorn.kb">
     <uses-permission android:name="android.permission.READ_USER_DICTIONARY" />
     <uses-permission android:name="android.permission.WRITE_USER_DICTIONARY" />
 
     <application android:label="@string/english_ime_name"
             android:backupAgent="LatinIMEBackupAgent">
 
-        <service android:name="LatinIME"
+        <service android:name="com.android.inputmethod.latin.LatinIME"
                 android:label="@string/english_ime_name"
                 android:permission="android.permission.BIND_INPUT_METHOD">
             <intent-filter>
@@ -17,7 +15,7 @@
             <meta-data android:name="android.view.im" android:resource="@xml/method" />
         </service>
         
-        <activity android:name="LatinIMESettings" android:label="@string/english_ime_settings">
+        <activity android:name="com.android.inputmethod.latin.LatinIMESettings" android:label="@string/english_ime_settings">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
             </intent-filter>

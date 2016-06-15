@@ -82,6 +82,7 @@ public class CandidateView extends View {
     private int mDescent;
     private boolean mScrolled;
     private int mTargetScrollX;
+    private int mScrollX = 0;
     
     private int mTotalWidth;
     
@@ -112,8 +113,8 @@ public class CandidateView extends View {
      */
     public CandidateView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mSelectionHighlight = context.getResources().getDrawable(
-                com.android.internal.R.drawable.list_selector_background_pressed);
+        //mSelectionHighlight = context.getResources().getDrawable(
+        //        com.android.internal.R.drawable.list_selector_background_pressed);
 
         LayoutInflater inflate =
             (LayoutInflater) context
